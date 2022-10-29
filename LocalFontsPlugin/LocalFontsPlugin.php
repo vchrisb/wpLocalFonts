@@ -2,48 +2,55 @@
 /*
 Plugin Name: Local Fonts
 Description: Plugin to host Fonts (Roboto, Lobster, Montserrat, Open Sans) locally and optionally add to Divi's font menu
-Version: 1.0.18
+Version: 1.0.19
 Author: Christopher Banck
 Author URI: https://banck.net
 */
 /* Start Adding Functions Below this Line */
 
 // Register Style
-function LocalFonts_load_custom_font($fonts) {
-  $local_fonts_options = get_option( 'local_fonts_option_name' );
-  $custom_fonts = array();
-  if (isset($local_fonts_options['roboto_0']) && $local_fonts_options['roboto_0'] === 'roboto_0') {
+function LocalFonts_add_style() {
+  $LocalFonts_options = get_option( 'LocalFonts_options', array() );
+  if (isset($LocalFonts_options['roboto_0']) && $LocalFonts_options['roboto_0'] === "1") {
     wp_enqueue_style( 'LocalFontsPluginRoboto', plugin_dir_url( __FILE__ ) . 'assets/css/roboto.css' );
-	if (isset($local_fonts_options['divi_0']) && $local_fonts_options['divi_0'] === 'divi_0') {
-    // Add font to Divi's font menu
+  }
+  if (isset($LocalFonts_options['robotocondensed_1']) && $LocalFonts_options['robotocondensed_1'] === "1") {
+    wp_enqueue_style( 'LocalFontsPluginRobotoCondensed', plugin_dir_url( __FILE__ ) . 'assets/css/robotocondensed.css' );  
+  }
+  if (isset($LocalFonts_options['lobster_2']) && $LocalFonts_options['lobster_2'] === "1") {
+    wp_enqueue_style( 'LocalFontsPluginLobster', plugin_dir_url( __FILE__ ) . 'assets/css/lobster.css' );
+  }
+  if (isset($LocalFonts_options['montserrat_3']) && $LocalFonts_options['montserrat_3'] === "1") {
+    wp_enqueue_style( 'LocalFontsPluginMontserrat', plugin_dir_url( __FILE__ ) . 'assets/css/montserrat.css' );
+
+  }
+  if (isset($LocalFonts_options['opensans_4']) && $LocalFonts_options['opensans_4'] === "1") {
+    wp_enqueue_style( 'LocalFontsPluginOpenSans', plugin_dir_url( __FILE__ ) . 'assets/css/opensans.css' );    
+  }
+}
+
+function LocalFonts_add_divi($fonts) {
+    $LocalFonts_options = get_option( 'LocalFonts_options', array() );
+    $custom_fonts = array();
+    if (isset($LocalFonts_options['roboto_0']) && $LocalFonts_options['roboto_0'] === "1") {
         $font = array('Roboto' => array(
                 'styles'        => '100italic,300italic,400italic,700italic,900italic,100,300,400,700,900',
                 'character_set' => 'latin',
                 'type'          => 'sans-serif',
                 'standard'      => 1
             ));
-        $custom_fonts = array_merge($font,$custom_fonts);
-	}
-        
-  }
-  if (isset($local_fonts_options['robotocondensed_1']) && $local_fonts_options['robotocondensed_1'] === 'robotocondensed_1') {
-    wp_enqueue_style( 'LocalFontsPluginRobotoCondensed', plugin_dir_url( __FILE__ ) . 'assets/css/robotocondensed.css' );
-    if (isset($local_fonts_options['divi_0']) && $local_fonts_options['divi_0'] === 'divi_0') {
-        // Add font to Divi's font menu
+        $custom_fonts = array_merge($font,$custom_fonts);  
+    }
+    if (isset($LocalFonts_options['robotocondensed_1']) && $LocalFonts_options['robotocondensed_1'] === "1") {
         $font = array('Roboto Condensed' => array(
                 'styles'        => '300italic,400italic,700italic,300,400,700',
                 'character_set' => 'latin',
                 'type'          => 'sans-serif',
                 'standard'      => 1
             ));
-        $custom_fonts = array_merge($font,$custom_fonts);
+        $custom_fonts = array_merge($font,$custom_fonts);   
     }
-        
-  }
-  if (isset($local_fonts_options['lobster_2']) && $local_fonts_options['lobster_2'] === 'lobster_2') {
-    wp_enqueue_style( 'LocalFontsPluginLobster', plugin_dir_url( __FILE__ ) . 'assets/css/lobster.css' );
-    if (isset($local_fonts_options['divi_0']) && $local_fonts_options['divi_0'] === 'divi_0') {
-        // Add font to Divi's font menu
+    if (isset($LocalFonts_options['lobster_2']) && $LocalFonts_options['lobster_2'] === "1") {
         $font = array('Lobster' => array(
                 'styles'        => '400',
                 'character_set' => 'latin',
@@ -52,12 +59,7 @@ function LocalFonts_load_custom_font($fonts) {
             ));
         $custom_fonts = array_merge($font,$custom_fonts);
     }
-
-  }
-  if (isset($local_fonts_options['montserrat_3']) && $local_fonts_options['montserrat_3'] === 'montserrat_3') {
-    wp_enqueue_style( 'LocalFontsPluginMontserrat', plugin_dir_url( __FILE__ ) . 'assets/css/montserrat.css' );
-    if (isset($local_fonts_options['divi_0']) && $local_fonts_options['divi_0'] === 'divi_0') {
-        // Add font to Divi's font menu
+    if (isset($LocalFonts_options['montserrat_3']) && $LocalFonts_options['montserrat_3'] === "1") {
         $font = array('Montserrat' => array(
                 'styles'        => '100italic,300italic,400italic,700italic,900italic,100,300,400,700,900',
                 'character_set' => 'latin',
@@ -66,13 +68,7 @@ function LocalFonts_load_custom_font($fonts) {
             ));
         $custom_fonts = array_merge($font,$custom_fonts);
     }
-        
-
-  }
-  if (isset($local_fonts_options['opensans_4']) && $local_fonts_options['opensans_4'] === 'opensans_4') {
-    wp_enqueue_style( 'LocalFontsPluginOpenSans', plugin_dir_url( __FILE__ ) . 'assets/css/opensans.css' );
-    if (isset($local_fonts_options['divi_0']) && $local_fonts_options['divi_0'] === 'divi_0') {
-        // Add font to Divi's font menu
+    if (isset($LocalFonts_options['opensans_4']) && $LocalFonts_options['opensans_4'] === "1") {
         $font = array('Open Sans' => array(
                 'styles'        => '300italic,400italic,700italic,300,400,700',
                 'character_set' => 'latin',
@@ -81,22 +77,17 @@ function LocalFonts_load_custom_font($fonts) {
             ));
         $custom_fonts = array_merge($font,$custom_fonts);
     }
-        
+    return array_merge($custom_fonts,$fonts);
   }
-  return array_merge($custom_fonts,$fonts);
+
+$LocalFonts_options = get_option( 'LocalFonts_options', array() );
+if (isset($LocalFonts_options['divi_0']) && $LocalFonts_options['divi_0'] === "1") {
+    add_filter('et_websafe_fonts', 'LocalFonts_add_divi',10,2);
 }
-
-add_filter('et_websafe_fonts', 'LocalFonts_load_custom_font',10,2);
-
-
-
-/**
- * Generated by the WordPress Option Page generator
- * at http://jeremyhixon.com/wp-tools/option-page/
- */
+add_action('wp_head', 'LocalFonts_add_style');
 
 class LocalFonts {
-	private $local_fonts_options;
+	private $LocalFonts_options;
 
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'local_fonts_add_plugin_page' ) );
@@ -114,12 +105,12 @@ class LocalFonts {
 	}
 
 	public function local_fonts_create_admin_page() {
-		$this->local_fonts_options = get_option( 'local_fonts_option_name' ); ?>
+        $default = array('divi_0' => '', 'roboto_0' => '', 'robotocondensed_1' => '', 'lobster_2' => '','montserrat_3' => '','opensans_4' => '');
+		$this->LocalFonts_options = get_option( 'LocalFonts_options', $default ); ?>
 
 		<div class="wrap">
 			<h2>Local Fonts</h2>
 			<p>Select which fonts should be loaded and added to Divi</p>
-			<?php settings_errors(); ?>
 
 			<form method="post" action="options.php">
 				<?php
@@ -134,7 +125,7 @@ class LocalFonts {
 	public function local_fonts_page_init() {
 		register_setting(
 			'local_fonts_option_group', // option_group
-			'local_fonts_option_name', // option_name
+			'LocalFonts_options', // option_name
 			array( $this, 'local_fonts_sanitize' ) // sanitize_callback
 		);
 
@@ -202,7 +193,7 @@ class LocalFonts {
 	}
 
 	public function local_fonts_sanitize($input) {
-		$sanitary_values = array();
+		$sanitary_values = array('divi_0' => '', 'roboto_0' => '', 'robotocondensed_1' => '', 'lobster_2' => '','montserrat_3' => '','opensans_4' => '');
 		if ( isset( $input['divi_0'] ) ) {
 			$sanitary_values['divi_0'] = $input['divi_0'];
 		}
@@ -235,43 +226,43 @@ class LocalFonts {
 
 	public function divi_0_callback() {
 		printf(
-			'<input type="checkbox" name="local_fonts_option_name[divi_0]" id="divi_0" value="divi_0" %s> <label for="divi_0">Add fonts to Divi fonts menu</label>',
-			( isset( $this->local_fonts_options['divi_0'] ) && $this->local_fonts_options['divi_0'] === 'divi_0' ) ? 'checked' : ''
+			'<input type="checkbox" name="LocalFonts_options[divi_0]" id="divi_0" value="1" %s> <label for="divi_0">Add fonts to Divi fonts menu</label>',
+			checked( $this->LocalFonts_options['divi_0'], 1, FALSE )
 		);
 	}
 
 	public function roboto_0_callback() {
 		printf(
-			'<input type="checkbox" name="local_fonts_option_name[roboto_0]" id="roboto_0" value="roboto_0" %s> <label for="roboto_0">Add Roboto with weights: 100italic, 300italic, 400italic, 700italic, 900italic, 100, 300, 400, 700, 900</label>',
-			( isset( $this->local_fonts_options['roboto_0'] ) && $this->local_fonts_options['roboto_0'] === 'roboto_0' ) ? 'checked' : ''
+			'<input type="checkbox" name="LocalFonts_options[roboto_0]" id="roboto_0" value="1" %s> <label for="roboto_0">Add Roboto with weights: 100italic, 300italic, 400italic, 700italic, 900italic, 100, 300, 400, 700, 900</label>',
+			checked( $this->LocalFonts_options['roboto_0'], 1, FALSE )
 		);
 	}
 
 	public function robotocondensed_1_callback() {
 		printf(
-			'<input type="checkbox" name="local_fonts_option_name[robotocondensed_1]" id="robotocondensed_1" value="robotocondensed_1" %s> <label for="robotocondensed_1">Add Roboto Condensed with weights: 300italic, 400italic, 700italic, 300, 400, 700</label>',
-			( isset( $this->local_fonts_options['robotocondensed_1'] ) && $this->local_fonts_options['robotocondensed_1'] === 'robotocondensed_1' ) ? 'checked' : ''
+			'<input type="checkbox" name="LocalFonts_options[robotocondensed_1]" id="robotocondensed_1" value="1" %s> <label for="robotocondensed_1">Add Roboto Condensed with weights: 300italic, 400italic, 700italic, 300, 400, 700</label>',
+			checked( $this->LocalFonts_options['robotocondensed_1'], 1, FALSE )
 		);
 	}
 
 	public function lobster_2_callback() {
 		printf(
-			'<input type="checkbox" name="local_fonts_option_name[lobster_2]" id="lobster_2" value="lobster_2" %s> <label for="lobster_2">Add Lobster with weights: 400</label>',
-			( isset( $this->local_fonts_options['lobster_2'] ) && $this->local_fonts_options['lobster_2'] === 'lobster_2' ) ? 'checked' : ''
+			'<input type="checkbox" name="LocalFonts_options[lobster_2]" id="lobster_2" value="1" %s> <label for="lobster_2">Add Lobster with weights: 400</label>',
+			checked( $this->LocalFonts_options['lobster_2'], 1, FALSE )
 		);
 	}
 
     public function montserrat_3_callback() {
 		printf(
-			'<input type="checkbox" name="local_fonts_option_name[montserrat_3]" id="montserrat_3" value="montserrat_3" %s> <label for="montserrat_3">Add Montserrat with weights: 100italic, 300italic, 400italic, 700italic, 900italic, 100, 300, 400, 700, 900</label>',
-			( isset( $this->local_fonts_options['montserrat_3'] ) && $this->local_fonts_options['montserrat_3'] === 'montserrat_3' ) ? 'checked' : ''
+			'<input type="checkbox" name="LocalFonts_options[montserrat_3]" id="montserrat_3" value="1" %s> <label for="montserrat_3">Add Montserrat with weights: 100italic, 300italic, 400italic, 700italic, 900italic, 100, 300, 400, 700, 900</label>',
+			checked( $this->LocalFonts_options['montserrat_3'], 1, FALSE )
 		);
 	}
 
     public function opensans_4_callback() {
 		printf(
-			'<input type="checkbox" name="local_fonts_option_name[opensans_4]" id="opensans_4" value="opensans_4" %s> <label for="opensans_4">Add Montserrat with weights: 300italic, 400italic, 700italic, 300, 400, 700</label>',
-			( isset( $this->local_fonts_options['opensans_4'] ) && $this->local_fonts_options['opensans_4'] === 'opensans_4' ) ? 'checked' : ''
+			'<input type="checkbox" name="LocalFonts_options[opensans_4]" id="opensans_4" value="1" %s> <label for="opensans_4">Add Montserrat with weights: 300italic, 400italic, 700italic, 300, 400, 700</label>',
+			checked($this->LocalFonts_options['opensans_4'], 1, FALSE )
 		);
 	}
 }
