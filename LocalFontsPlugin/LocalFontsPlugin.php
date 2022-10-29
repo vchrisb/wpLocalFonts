@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Local Fonts
-Description: Plugin to host Fonts (Roboto, Lobster, Montserrat, Open Sans) locally and optionally add to Divi's font menu
-Version: 1.0.19
+Description: Plugin to host Fonts (Roboto, Roboto Condensed, Lobster, Montserrat, Open Sans) locally and optionally add to Divi's font menu
+Version: 1.1.0
 Author: Christopher Banck
 Author URI: https://banck.net
 */
@@ -29,6 +29,7 @@ function LocalFonts_add_style() {
   }
 }
 
+// Add to Divi Font Menu
 function LocalFonts_add_divi($fonts) {
     $LocalFonts_options = get_option( 'LocalFonts_options', array() );
     $custom_fonts = array();
@@ -90,21 +91,21 @@ class LocalFonts {
 	private $LocalFonts_options;
 
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'local_fonts_add_plugin_page' ) );
-		add_action( 'admin_init', array( $this, 'local_fonts_page_init' ) );
+		add_action( 'admin_menu', array( $this, 'LocalFonts_add_plugin_page' ) );
+		add_action( 'admin_init', array( $this, 'LocalFonts_page_init' ) );
 	}
 
-	public function local_fonts_add_plugin_page() {
+	public function LocalFonts_add_plugin_page() {
 		add_options_page(
 			'Local Fonts', // page_title
 			'Local Fonts', // menu_title
 			'manage_options', // capability
 			'local-fonts', // menu_slug
-			array( $this, 'local_fonts_create_admin_page' ) // function
+			array( $this, 'LocalFonts_create_admin_page' ) // function
 		);
 	}
 
-	public function local_fonts_create_admin_page() {
+	public function LocalFonts_create_admin_page() {
         $default = array('divi_0' => '', 'roboto_0' => '', 'robotocondensed_1' => '', 'lobster_2' => '','montserrat_3' => '','opensans_4' => '');
 		$this->LocalFonts_options = get_option( 'LocalFonts_options', $default ); ?>
 
@@ -114,85 +115,85 @@ class LocalFonts {
 
 			<form method="post" action="options.php">
 				<?php
-					settings_fields( 'local_fonts_option_group' );
-					do_settings_sections( 'local-fonts-admin' );
+					settings_fields( 'LocalFonts_option_group' );
+					do_settings_sections( 'LocalFonts-admin' );
 					submit_button();
 				?>
 			</form>
 		</div>
 	<?php }
 
-	public function local_fonts_page_init() {
+	public function LocalFonts_page_init() {
 		register_setting(
-			'local_fonts_option_group', // option_group
+			'LocalFonts_option_group', // option_group
 			'LocalFonts_options', // option_name
-			array( $this, 'local_fonts_sanitize' ) // sanitize_callback
+			array( $this, 'LocalFonts_sanitize' ) // sanitize_callback
 		);
 
 		add_settings_section(
-			'local_fonts_setting_section', // id
+			'LocalFonts_setting_section', // id
 			'Settings', // title
-			array( $this, 'local_fonts_section_info' ), // callback
-			'local-fonts-admin' // page
+			array( $this, 'LocalFonts_section_info' ), // callback
+			'LocalFonts-admin' // page
 		);
 
 		add_settings_field(
 			'divi_0', // id
 			'Divi', // title
 			array( $this, 'divi_0_callback' ), // callback
-			'local-fonts-admin', // page
-			'local_fonts_setting_section' // section
+			'LocalFonts-admin', // page
+			'LocalFonts_setting_section' // section
 		);
 
 		add_settings_section(
-			'local_fonts_fonts_section', // id
+			'LocalFonts_fonts_section', // id
 			'Fonts', // title
-			array( $this, 'local_fonts_section_info' ), // callback
-			'local-fonts-admin' // page
+			array( $this, 'LocalFonts_section_info' ), // callback
+			'LocalFonts-admin' // page
 		);
 
 		add_settings_field(
 			'roboto_0', // id
 			'Roboto', // title
 			array( $this, 'roboto_0_callback' ), // callback
-			'local-fonts-admin', // page
-			'local_fonts_fonts_section' // section
+			'LocalFonts-admin', // page
+			'LocalFonts_fonts_section' // section
 		);
 
 		add_settings_field(
 			'robotocondensed_1', // id
 			'Roboto Condensed', // title
 			array( $this, 'robotocondensed_1_callback' ), // callback
-			'local-fonts-admin', // page
-			'local_fonts_fonts_section' // section
+			'LocalFonts-admin', // page
+			'LocalFonts_fonts_section' // section
 		);
 
 		add_settings_field(
 			'lobster_2', // id
 			'Lobster', // title
 			array( $this, 'lobster_2_callback' ), // callback
-			'local-fonts-admin', // page
-			'local_fonts_fonts_section' // section
+			'LocalFonts-admin', // page
+			'LocalFonts_fonts_section' // section
 		);
 
 		add_settings_field(
 			'montserrat_3', // id
 			'Montserrat', // title
 			array( $this, 'montserrat_3_callback' ), // callback
-			'local-fonts-admin', // page
-			'local_fonts_fonts_section' // section
+			'LocalFonts-admin', // page
+			'LocalFonts_fonts_section' // section
 		);
 
 		add_settings_field(
 			'opensans_4', // id
 			'Open Sans', // title
 			array( $this, 'opensans_4_callback' ), // callback
-			'local-fonts-admin', // page
-			'local_fonts_fonts_section' // section
+			'LocalFonts-admin', // page
+			'LocalFonts_fonts_section' // section
 		);
 	}
 
-	public function local_fonts_sanitize($input) {
+	public function LocalFonts_sanitize($input) {
 		$sanitary_values = array('divi_0' => '', 'roboto_0' => '', 'robotocondensed_1' => '', 'lobster_2' => '','montserrat_3' => '','opensans_4' => '');
 		if ( isset( $input['divi_0'] ) ) {
 			$sanitary_values['divi_0'] = $input['divi_0'];
@@ -220,7 +221,7 @@ class LocalFonts {
 		return $sanitary_values;
 	}
 
-	public function local_fonts_section_info() {
+	public function LocalFonts_section_info() {
 		
 	}
 
