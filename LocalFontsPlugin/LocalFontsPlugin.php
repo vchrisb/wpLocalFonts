@@ -4,7 +4,7 @@ Plugin Name: Local Fonts
 Description: Plugin to host Fonts (Roboto, Roboto Condensed, Lobster, Montserrat, Open Sans) locally and optionally add to Divi's font menu
 Version: 1.1.1
 Author: Christopher Banck
-Author URI: https://banck.net
+Author URI: https://github.com/vchrisb/wpLocalFonts
 */
 /* Start Adding Functions Below this Line */
 
