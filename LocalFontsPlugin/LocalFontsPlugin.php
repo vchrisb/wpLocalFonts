@@ -2,21 +2,26 @@
 /*
 Plugin Name: Local Fonts
 Description: Plugin to host Fonts (Roboto, Roboto Condensed, Lobster, Montserrat, Open Sans) locally and optionally add to Divi's font menu
-Version: 1.1.0
+Version: 1.1.1
 Author: Christopher Banck
 Author URI: https://banck.net
 */
 /* Start Adding Functions Below this Line */
 
 $LocalFonts_options_defaults = array(
-    'divi' => '', 'roboto' => '', 'robotocondensed' => '', 'lobster' => '','montserrat' => '','opensans' => '',
+    'divi' => '',
+    'roboto' => '',
+    'robotocondensed' => '',
+    'lobster' => '',
+    'montserrat' => '',
+    'opensans' => '',
   );
 
 // Register Style
 function LocalFonts_add_style()
 {
     global $LocalFonts_options_defaults;
-    $LocalFonts_options = get_option('LocalFonts_options', $LocalFonts_options_defaults);
+    $LocalFonts_options = wp_parse_args(get_option('LocalFonts_options'), $LocalFonts_options_defaults);
     if ($LocalFonts_options['roboto'] === "1") {
         wp_enqueue_style('LocalFontsPluginRoboto', plugin_dir_url(__FILE__) . 'assets/css/roboto.css');
     }
@@ -38,7 +43,7 @@ function LocalFonts_add_style()
 function LocalFonts_add_divi($fonts)
 {
     global $LocalFonts_options_defaults;
-    $LocalFonts_options = get_option('LocalFonts_options', $LocalFonts_options_defaults);
+    $LocalFonts_options = wp_parse_args(get_option('LocalFonts_options'), $LocalFonts_options_defaults);
     $custom_fonts = array();
     if ($LocalFonts_options['roboto'] === "1") {
         $font = array('Roboto' => array(
@@ -88,7 +93,7 @@ function LocalFonts_add_divi($fonts)
     return array_merge($custom_fonts, $fonts);
 }
 
-$LocalFonts_options = get_option('LocalFonts_options', $LocalFonts_options_defaults);
+$LocalFonts_options = wp_parse_args(get_option('LocalFonts_options'), $LocalFonts_options_defaults);
 if ($LocalFonts_options['divi'] === "1") {
     add_filter('et_websafe_fonts', 'LocalFonts_add_divi', 10, 2);
 }
@@ -118,7 +123,7 @@ class LocalFonts
     public function LocalFonts_create_admin_page()
     {
         global $LocalFonts_options_defaults;
-        $this->LocalFonts_options = get_option('LocalFonts_options', $LocalFonts_options_defaults); ?>
+        $this->LocalFonts_options = wp_parse_args(get_option('LocalFonts_options'), $LocalFonts_options_defaults); ?>
 
 		<div class="wrap">
 			<h2>Local Fonts</h2>
