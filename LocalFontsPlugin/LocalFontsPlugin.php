@@ -292,7 +292,7 @@ class LocalFonts
     public function opensans_callback()
     {
         printf(
-            '<input type="checkbox" name="LocalFonts_options[opensans]" id="opensans" value="1" %s> <label for="opensans">Add Montserrat with weights: 300italic, 400italic, 700italic, 300, 400, 700</label>',
+            '<input type="checkbox" name="LocalFonts_options[opensans]" id="opensans" value="1" %s> <label for="opensans">Add Open Sans with weights: 300italic, 400italic, 700italic, 300, 400, 700</label>',
             checked($this->LocalFonts_options['opensans'], 1, false)
         );
     }
